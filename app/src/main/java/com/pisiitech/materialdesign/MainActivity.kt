@@ -17,6 +17,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -40,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SayfaTopAppBar()
+                    SayfaTopAppBarArama()
                 }
             }
         }
@@ -51,10 +53,64 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     MaterialDesignTheme {
-        SayfaTopAppBar()
+        SayfaTopAppBarArama()
     }
 }
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SayfaTopAppBarArama() {
+    val aramaYapiliyorMu = remember { mutableStateOf(false) }
+    val tf = remember { mutableStateOf("") }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    if(aramaYapiliyorMu.value){
+                        TextField(
+                            value = tf.value,
+                            onValueChange = {
+                                tf.value = it
+                                Log.e("TopBar", "Arama : $it")
+                        },
+                        label = { Text(text = "Ara")},
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = Color.Transparent, //Arkaplan rengi
+                            focusedIndicatorColor = Color.White, // Secildiginde belirtec rengi
+                            unfocusedIndicatorColor = Color.White, // Secilmediginde belirtec rengi
+                            textColor = Color.Black, //Yazi rengi
+                        )
+                            )
+                    }else{
+                        Text(text = "Baslik")
+                    }
+                },
+                actions = {
+                    if(aramaYapiliyorMu.value){
+                        IconButton(onClick = {
+                            aramaYapiliyorMu.value = false
+                            tf.value = ""
+                        }) {
+                            Icon(painter = painterResource(id = R.drawable.kapat_resim),
+                                contentDescription = "")
+                        }
+                    }else{
+                        IconButton(onClick = {
+                            aramaYapiliyorMu.value = true
+                        }) {
+                            Icon(painter = painterResource(id = R.drawable.arama_resim),
+                                contentDescription = "")
+                        }
+                    }
+                }
 
+                )
+            },
+        content = {
+
+        }
+    )
+}
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
