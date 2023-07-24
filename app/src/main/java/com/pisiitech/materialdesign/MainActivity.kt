@@ -8,6 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -18,6 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -55,6 +59,7 @@ fun GreetingPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SayfaTopAppBar() {
+    val menuAcilisKontrol = remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -79,10 +84,27 @@ fun SayfaTopAppBar() {
                             contentDescription = "")
                     }
                     IconButton(onClick = {
-                        Log.e("TopBar", "More secildi")
+                        menuAcilisKontrol.value = true
                     }) {
                         Icon(painter = painterResource(id = R.drawable.more_resim),
                             contentDescription = "")
+                    }
+                    DropdownMenu(
+                        expanded = menuAcilisKontrol.value,
+                        onDismissRequest = { menuAcilisKontrol.value = false }) {
+                        DropdownMenuItem(
+                            text = { Text(text = "Sil")},
+                            onClick = {
+                                Log.e("TopBar", "Menu Sil secildi")
+                                menuAcilisKontrol.value = false
+                            })
+                        DropdownMenuItem(
+                            text = { Text(text = "Guncelle")},
+                            onClick = {
+                                Log.e("TopBar", "Menu Guncelle secildi")
+                                menuAcilisKontrol.value = false
+                            })
+                        
                     }
                 }
             )
