@@ -27,6 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -87,14 +88,24 @@ fun SayfaDinamikListeleme() {
                 Card(modifier = Modifier
                     .padding(all = 5.dp)
                     .fillMaxWidth()) {
-                    Row(modifier = Modifier.fillMaxSize().clickable {
-                        Log.e("Liste","$ulke secildi")
-                    }) {//tiklama icin
+                    Row(modifier = Modifier
+                        .fillMaxSize()
+                        .clickable {
+                            Log.e("Liste", "$ulke secildi")
+                        }) {//tiklama icin
                         Row( //tasarim altyapim
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(10.dp)
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier.fillMaxSize().padding()
                         ) {
-                            Text(text = ulke,modifier = Modifier.padding(5.dp) )
+                            Text(text = ulke,modifier = Modifier.padding(5.dp).clickable {
+                                Log.e("Liste","Text ile $ulke secildi")
+                            } )
+                            OutlinedButton(onClick = {
+                                Log.e("Liste","Button ile $ulke secildi")
+                            }) {
+                                Text(text = "Ulke Sec")
+                            }
                         }
                     }
                 }
