@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -55,7 +57,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SayfaSabitListeleme()
+                    SayfaSabitListelemeLazyRow()
                 }
             }
         }
@@ -66,21 +68,68 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     MaterialDesignTheme {
-        SayfaSabitListeleme()
+        SayfaSabitListelemeLazyRow()
+    }
+}
+@Composable
+fun SayfaSabitListelemeLazyRow() {
+
+    LazyRow {
+        item {
+            Card(modifier = Modifier
+                .padding(all = 5.dp)
+                .size(105.dp)) {
+                Row(horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable {
+                        Log.e("Liste", "Gunes tiklandi")
+                    }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
+                    Row(verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(all = 10.dp)) {
+                        Image(painter = painterResource(id = R.drawable.gunes_resim_24), contentDescription = "")
+                        Text(text = "Gunes", modifier = Modifier.padding(all = 5.dp))
+                    }
+                }
+            }
+        }
+        item {
+            Card(modifier = Modifier
+                .padding(all = 5.dp)
+                .size(105.dp)) {
+                Row(horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                    .fillMaxSize()
+                    .clickable {
+                        Log.e("Liste", "Ay tiklandi")
+                    }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
+                    Row(verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(all = 10.dp)) {
+                        Image(painter = painterResource(id = R.drawable.ay_resim), contentDescription = "")
+                        Text(text = "Ay", modifier = Modifier.padding(all = 5.dp))
+                    }
+                }
+            }
+        }
     }
 }
 
+
 @Composable
-fun SayfaSabitListeleme() {
+fun SayfaSabitListelemeLazyColumn() {
 
     LazyColumn {
         item {
             Card(modifier = Modifier
                 .padding(all = 5.dp)
                 .fillMaxWidth()) {
-                Row(modifier = Modifier.fillMaxWidth().clickable {
-                    Log.e("Liste","Gunes tiklandi")
-                }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        Log.e("Liste", "Gunes tiklandi")
+                    }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(all = 10.dp)) {
                         Image(painter = painterResource(id = R.drawable.gunes_resim_24), contentDescription = "")
@@ -93,9 +142,11 @@ fun SayfaSabitListeleme() {
             Card(modifier = Modifier
                 .padding(all = 5.dp)
                 .fillMaxWidth()) {
-                Row(modifier = Modifier.fillMaxWidth().clickable {
-                    Log.e("Liste","Ay tiklandi")
-                }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        Log.e("Liste", "Ay tiklandi")
+                    }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(all = 10.dp)) {
                         Image(painter = painterResource(id = R.drawable.ay_resim), contentDescription = "")
