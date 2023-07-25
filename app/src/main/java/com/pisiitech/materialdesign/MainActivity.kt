@@ -87,7 +87,9 @@ fun SayfaDinamikListeleme() {
                 Card(modifier = Modifier
                     .padding(all = 5.dp)
                     .fillMaxWidth()) {
-                    Row {//tiklama icin
+                    Row(modifier = Modifier.fillMaxSize().clickable {
+                        Log.e("Liste","$ulke secildi")
+                    }) {//tiklama icin
                         Row( //tasarim altyapim
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(10.dp)
