@@ -35,11 +35,13 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,7 +59,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SayfaSabitListelemeLazyRow()
+                    SayfaDinamikListeleme()
                 }
             }
         }
@@ -68,7 +70,34 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     MaterialDesignTheme {
-        SayfaSabitListelemeLazyRow()
+        SayfaDinamikListeleme()
+    }
+}
+
+@Composable
+fun SayfaDinamikListeleme() {
+    val ulkeListesi = remember { mutableStateListOf("Turkiye","Italya","Almanya","Japonya") }
+
+    LazyColumn {
+        items(
+            count = ulkeListesi.count(),
+            itemContent = {
+                val ulke = ulkeListesi[it]
+
+                Card(modifier = Modifier
+                    .padding(all = 5.dp)
+                    .fillMaxWidth()) {
+                    Row {//tiklama icin
+                        Row( //tasarim altyapim
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(10.dp)
+                        ) {
+                            Text(text = ulke,modifier = Modifier.padding(5.dp) )
+                        }
+                    }
+                }
+            }
+        )
     }
 }
 @Composable
@@ -84,8 +113,8 @@ fun SayfaSabitListelemeLazyRow() {
                     modifier = Modifier
                         .fillMaxSize()
                         .clickable {
-                        Log.e("Liste", "Gunes tiklandi")
-                    }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
+                            Log.e("Liste", "Gunes tiklandi")
+                        }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(all = 10.dp)) {
                         Image(painter = painterResource(id = R.drawable.gunes_resim_24), contentDescription = "")
@@ -101,10 +130,10 @@ fun SayfaSabitListelemeLazyRow() {
                 Row(horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                    .fillMaxSize()
-                    .clickable {
-                        Log.e("Liste", "Ay tiklandi")
-                    }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
+                        .fillMaxSize()
+                        .clickable {
+                            Log.e("Liste", "Ay tiklandi")
+                        }) {//tiklama islemini saglayacak bir yapi (row ondan koyduk)
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(all = 10.dp)) {
                         Image(painter = painterResource(id = R.drawable.ay_resim), contentDescription = "")
