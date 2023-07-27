@@ -48,6 +48,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
+import androidx.navigation.compose.rememberNavController
 import com.pisiitech.materialdesign.ui.theme.MaterialDesignTheme
 
 class MainActivity : ComponentActivity() {
@@ -60,7 +66,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SayfaDinamikListeleme()
+                    SayfaGecisleri()
                 }
             }
         }
@@ -71,12 +77,27 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     MaterialDesignTheme {
-        SayfaDinamikListeleme()
+
     }
 }
-
 @Composable
-fun SayfaDinamikListeleme() {
+fun SayfaGecisleri() {
+   val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "sayfa") {
+        composable("sayfa"){
+            SayfaDinamikListeleme(navController = navController)
+        }
+        composable("detay_sayfa/{ulkeAdi}", arguments = listOf(
+            navArgument("ulkeAdi") { type = NavType.StringType}
+        )){
+            val ulkeAdi = it.arguments?.getString("ulkeAdi")!!
+            DetaySayfa(ulkeAdi = ulkeAdi)
+        }
+    }
+
+}
+@Composable
+fun SayfaDinamikListeleme(navController: NavController) {
     val ulkeListesi = remember { mutableStateListOf("Turkiye","Italya","Almanya","Japonya") }
 
     LazyColumn {
@@ -92,15 +113,20 @@ fun SayfaDinamikListeleme() {
                         .fillMaxSize()
                         .clickable {
                             Log.e("Liste", "$ulke secildi")
+                            navController.navigate("detay_sayfa/$ulke")
                         }) {//tiklama icin
                         Row( //tasarim altyapim
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier.fillMaxSize().padding()
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding()
                         ) {
-                            Text(text = ulke,modifier = Modifier.padding(5.dp).clickable {
-                                Log.e("Liste","Text ile $ulke secildi")
-                            } )
+                            Text(text = ulke,modifier = Modifier
+                                .padding(5.dp)
+                                .clickable {
+                                    Log.e("Liste", "Text ile $ulke secildi")
+                                } )
                             OutlinedButton(onClick = {
                                 Log.e("Liste","Button ile $ulke secildi")
                             }) {
