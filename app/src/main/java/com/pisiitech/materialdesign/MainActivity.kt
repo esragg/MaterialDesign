@@ -100,7 +100,7 @@ fun SayfaGecisleri() {
 fun SayfaDinamikListeleme(navController: NavController) {
     val ulkeListesi = remember { mutableStateListOf("Turkiye","Italya","Almanya","Japonya") }
 
-    LazyColumn {
+    LazyRow {
         items(
             count = ulkeListesi.count(),
             itemContent = {
@@ -108,10 +108,9 @@ fun SayfaDinamikListeleme(navController: NavController) {
 
                 Card(modifier = Modifier
                     .padding(all = 5.dp)
-                    .fillMaxWidth()) {
-                    Row(modifier = Modifier
-                        .fillMaxSize()
-                        .clickable {
+                    .size(200.dp,100.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable {
                             Log.e("Liste", "$ulke secildi")
                             navController.navigate("detay_sayfa/$ulke")
                         }) {//tiklama icin
